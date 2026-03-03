@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+# ANSI colors
+RESET="\033[0m"
+BOLD="\033[1m"
+CYAN="\033[36m"
+YELLOW="\033[33m"
+
+print_section() {
+  echo -e "${BOLD}${CYAN}$1${RESET}"
+}
+
+print_cmd() {
+  printf "  ${BOLD}${YELLOW}%-6s${RESET} %s\n" "$1" "$2"
+}
+
+echo
+print_section "==================== Vim Navigation Cheat Sheet ===================="
+
+echo
+print_section "Word Navigation:"
+print_cmd "w"    "→ jump forward to next word"
+print_cmd "b"    "→ jump backward to previous word"
+print_cmd "e"    "→ jump to end of current word"
+
+echo
+print_section "Line Navigation:"
+print_cmd "0"    "→ start of line"
+print_cmd "\$"   "→ end of line"
+
+echo
+print_section "File Navigation:"
+print_cmd "gg"   "→ go to top of file"
+print_cmd "G"    "→ go to bottom of file"
+print_cmd ":N"   "→ jump to line N  (example: :42)"
+
+echo
+print_section "Scrolling:"
+print_cmd "Ctrl+d" "→ half page down"
+print_cmd "Ctrl+u" "→ half page up"
+print_cmd "Ctrl+f" "→ full page down"
+print_cmd "Ctrl+b" "→ full page up"
+
+echo
+print_section "Deletion:"
+print_cmd "dd"    "→ delete current line"
+print_cmd "dw"    "→ delete word"
+print_cmd "d\$"   "→ delete to end of line"
+print_cmd "ggdG"  "→ delete entire file"
+
+echo
+print_section "Editing Combos (motion + action):"
+print_cmd "dw"    "→ delete word"
+print_cmd "cw"    "→ change word (delete + insert)"
+print_cmd "d\$"   "→ delete to end of line"
+
+echo
+print_section "Save / Quit:"
+print_cmd ":w"    "→ save"
+print_cmd ":q"    "→ quit"
+print_cmd ":wq"   "→ save and quit"
+print_cmd ":q!"   "→ quit without saving"
+
+echo
+print_section "===================================================================="
+echo
+

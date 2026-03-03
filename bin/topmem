@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+# Lists the top N processes that are consuming the most memory according to %MEM
+
+N=${1:-15}
+
+if ! [[ "$N" =~ ^[0-9]+$ ]]; then
+  echo "Usage: $0 [number_of_processes]"
+  exit 1
+fi
+
+# ANSI colors
+RESET="\033[0m"
+BOLD="\033[1m"
+CYAN="\033[36m"
+RED="\033[31m"
+YELLOW="\033[33m"
+GREEN="\033[32m"
+
+# Print colored header
+printf "${BOLD}${CYAN}%-10s %-6s %-6s %-6s %-8s %-8s %-6s %-5s %s${RESET}\n" \
+"USER" "PID" "%CPU" "%MEM" "VSZ" "RSS" "STAT" "TIME" "COMMAND"
+
+# Print processes with colored %MEM
+ps -eo user,pid,pcpu,pmem,vsz,rss,stat,time,comm --sort=-pmem \
+| awk -v n="$N" -v reset="$RESET" -v red="$RED" -v yellow="$YELLOW" -v green="$GREEN" '
+NR==1 {next}
+NR<=n+1 {
+    mem=$4
+    color=green
+    if (mem > 20) color=red
+    else if (mem > 10) color=yellow
+
+    printf "%-10s %-6s %-6s " , $1, $2, $3
+    printf "%s%-6s%s " , color, $4, reset
+    printf "%-8s %-8s %-6s %-5s %s\n", $5, $6, $7, $8, $9
+}'
+
